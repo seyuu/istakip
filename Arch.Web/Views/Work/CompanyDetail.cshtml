@@ -1,0 +1,746 @@
+﻿@{
+    ViewBag.Title = "Firma Detay Ekle / Düzenle ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Arch.Dto.SingleDto.CompanyDetailDto
+<style>
+    .pre-media img, .pre-media .file {
+        height: 100px;
+        width: 80px;
+    }
+
+    .pre-media i {
+        font-size: 40px;
+        vertical-align: text-bottom;
+    }
+
+    .lg-video-cont {
+        max-width: 80% !important;
+    }
+
+    iframe {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-color: white;
+    }
+</style>
+<link href="/assets/plugins/Select2/select2.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header bg-blue">
+                @*@if (Model.Company.Id == 0)
+                    {
+                        <h2>Firma Ekle</h2>
+                    }
+                    else
+                    {*@
+                <h2>Firma Bilgileri</h2>
+                @*}*@
+            </div>
+            <div class="body">
+                <div data-id="formFirma" data-model-url="/Work/@(Model.CompanyDetail.Id == 0 ? "InsertCompanyDetail" : "UpdateCompanyDetail")">
+                    <div class="row">
+                        <div class="col-md-6" style="margin-bottom:0">
+                            <b>Firma</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <input id="firmaSec" class="form-control" data-attribute="UnitId" onchange="funcUnitChange(this)"
+                                       @if (Model.Company.Id != 0) { <text> value="@Model.Company.Id" </text>         } />
+                                <input type="hidden" name="Id" value="@Model.CompanyDetail.Id" data-attribute="Id" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Firma Ünvanı</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="CompanyTitle" value="@Model.CompanyDetail.CompanyTitle" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Fatura Başlığı</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="BillTitle" value="@Model.CompanyDetail.BillTitle" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Vergi No / Kimlik No</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="TaxIdentityNo" value="@Model.CompanyDetail.TaxIdentityNo" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Vergi Dairesi</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="TaxAdministration" value="@Model.CompanyDetail.TaxAdministration" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <b>Firma Bilgileri</b>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <textarea class="form-control" data-attribute="Info" maxlength="1000" style="min-height:55px;" onkeyup="textAreaAdjust(this)" onfocus="textAreaAdjust(this)">@Model.CompanyDetail.Info</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <b>Firma domainleri</b>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <textarea class="form-control" data-attribute="Domains" maxlength="1000" style="min-height:55px;" onkeyup="textAreaAdjust(this)" onfocus="textAreaAdjust(this)">@Model.CompanyDetail.Domains</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <b>Firma ozet bilgisi</b>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <textarea class="form-control" data-attribute="SummaryInformation" maxlength="1000" style="min-height:55px;" onkeyup="textAreaAdjust(this)" onfocus="textAreaAdjust(this)">@Model.CompanyDetail.SummaryInformation</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <b>Firma Analiz Raporu</b>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <textarea class="form-control" data-attribute="AnalysisReport" maxlength="1000" style="min-height:55px;" onkeyup="textAreaAdjust(this)" onfocus="textAreaAdjust(this)">@Model.CompanyDetail.AnalysisReport</textarea>
+                                </div>
+                            </div>
+                        </div><div class="col-md-12">
+                            <a href="javascript:void(formSendModel($('[data-id=\'formFirma\']')[0].dataset));" class="btn bg-blue waves-effect">
+                                <i class="material-icons">save</i> Kaydet
+                            </a><br /><br />
+                        </div>
+                    </div>
+                    <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" role="tab" id="headingOne_1">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseOne_1" aria-expanded="false" aria-controls="collapseOne_1" class="collapsed">
+                                        <i class="material-icons">assignment</i> Firma Yetkilisi
+                                    </a>
+                                </h4>
+                            </div>
+                            @*firma yetkilileri formu*@
+                            <div id="collapseOne_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_1" aria-expanded="false" style="height: 0px;">
+
+                                <div class="panel-body" data-id="formFirmaYetkili" data-model-url="/Work/InsertCompanyAuthorized">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <b>Firma Yetkilisi Adı</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Name" />
+                                                    <input type="hidden" name="UnitId" value="@Model.Company.Id" data-attribute="UnitId" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Surname</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Surname" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Phone</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Phone" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Mail</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Mail" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(formSendModel($('[data-id=\'formFirmaYetkili\']')[0].dataset));" class="btn bg-blue waves-effect">
+                                                <i class="material-icons">save</i> Ekle
+                                            </a><br /><br />
+                                        </div>
+                                           
+                                        </div>
+                                    <div id="grid"></div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" role="tab" id="headingTwo_1">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseTwo_1" aria-expanded="false" aria-controls="collapseTwo_1" class="collapsed">
+                                        <i class="material-icons">assignment</i> Sosyal Medya
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo_1" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body" data-id="formFirmaSosyalMedya" data-model-url="/Work/InsertCompanySocialMedia">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <b>Sosyal Medya Platformunun Adı</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Title" />
+                                                    <input type="hidden" name="UnitId" value="@Model.Company.Id" data-attribute="UnitId" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Takipçi Sayısı</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="NumberOfFollowers" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Gönderi Sayısı</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="NumberOfPosts" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(formSendModel($('[data-id=\'formFirmaSosyalMedya\']')[0].dataset));" class="btn bg-blue waves-effect">
+                                                <i class="material-icons">save</i> Ekle
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div id="gridSocialMedia"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" role="tab" id="headingThree_1">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseThree_1" aria-expanded="false" aria-controls="collapseThree_1" class="collapsed">
+                                        <i class="material-icons">assignment</i> Şifreler
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree_1" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body" data-id="formFirmaSifreler" data-model-url="/Work/InsertCompanyPassword">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <b>Şifre Başlık</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Title" />
+                                                    <input type="hidden" name="UnitId" value="@Model.Company.Id" data-attribute="UnitId" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <b>Şifre</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Password" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <b>Detay</b>
+                                            <code>* Gerekli</code>
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" data-attribute="Detail" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="javascript:void(formSendModel($('[data-id=\'formFirmaSifreler\']')[0].dataset));" class="btn bg-blue waves-effect">
+                                                <i class="material-icons">save</i> Ekle
+                                            </a><br /><br />
+                                        </div>
+                                      
+
+                                    </div>
+                                    <div id="gridPassword"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <a href="javascript:void(history.back())" class="btn bg-blue waves-effect">
+                        <i class="material-icons">arrow_back</i> Geri Dön
+                    </a>
+                    @*<a href="/Work" class="btn bg-blue waves-effect">
+                            <i class="material-icons">assignment</i> İş Listesi
+                        </a>*@
+                    @*<a href="javascript:void(0);" onclick="funcCopyTask()" class="btn bg-blue waves-effect">
+                            <i class="material-icons">content_copy</i> Kopyala
+                        </a>*@
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="hidden" id="comments">
+    <div class="media" style="margin-top:0;">
+        <h4 class="media-heading col-blue" style="font-size:15px;">##FullName <small><b>##Date</b> yorum yaptı.</small></h4>
+        ##Description
+    </div>
+</div>
+@section scripts{
+    <script src="/assets/js/kendo.all.min.js"></script>
+    <script src="/assets/js/kendo.timezones.min.js"></script>
+    <script src="/assets/js/kendo.culture.tr-TR.min.js"></script>
+    <script src="/assets/js/kendo.messages.tr-TR.min.js"></script>
+    <link href="/assets/css/kendo.material.min.css" rel="stylesheet" />
+    <link href="/assets/css/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="/assets/css/kendo.material.mobile.min.css" rel="stylesheet" />
+    <script src="/assets/plugins/Select2/select2.min.js"></script>
+    <style>
+        .demo-checkbox label, .demo-radio-button label {
+            min-width: inherit;
+            min-width: initial;
+        }
+
+        #grid {
+            border-top: 1px solid #2092c9 !important;
+            border: none;
+        }
+
+        .col-md-x {
+            max-width: 750px;
+        }
+
+            .col-md-x .media:last-child {
+                padding-bottom: 10px;
+            }
+
+        .k-grid-header .k-header, .k-grid-header .k-header .k-link, .k-grid-header .k-link, .k-grid-header .k-link:link, .k-pager-info, .k-scheduler-agendaview .k-scheduler-datecolumn, .k-scheduler-header {
+            color: #555;
+            font-weight: bold !important;
+        }
+
+        .media-heading {
+            color: #2196f3 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .media {
+            padding: 10px;
+            background-color: #fff;
+            margin-bottom: 0;
+            color: #555;
+            padding-bottom: 0;
+        }
+
+        .shadow {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .shadow-2 {
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        tr.k-detail-row.k-alt, .k-detail-row {
+            background-color: #efefef !important;
+        }
+
+        .k-scheduler-toolbar > ul:first-child {
+            float: none;
+        }
+
+        .k-scheduler-toolbar > ul {
+            float: none;
+            text-align: center;
+        }
+
+        .k-button, .k-calendar .k-footer, .k-calendar .k-header .k-link {
+            text-transform: none;
+        }
+
+        .k-grid td {
+            padding: 3px;
+        }
+
+        .k-header.k-grid-toolbar {
+            border-color: #33a9d5;
+        }
+
+        .k-grouping-header .k-group-indicator, .k-pivot-toolbar .k-button {
+            border-color: #33a9d5;
+        }
+
+        .k-grouping-header .k-group-indicator, .k-pivot-toolbar .k-button,
+        .k-block, .k-button, .k-draghandle, .k-grouping-header, .k-header.k-grid-toolbar,
+        .k-header, .k-toolbar, .k-treemap-tile, html .km-pane-wrapper .k-header {
+            background-color: #2196F3;
+        }
+
+        .k-grid-toolbar {
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .media .media-body .media-heading {
+            font-size: 14px;
+        }
+
+        .k-grid td {
+            line-height: 1.2em;
+        }
+
+        .k-dirty {
+            border-style: none;
+        }
+    </style>
+    <script>
+        var dataCount = 0;
+        kendo.culture("tr-TR");
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/work/GetCompanyAuthorities/" + @(Model.Company.Id),
+                    dataType: "json"
+                },
+                parameterMap: function (options) {
+                    return "&Id=" + $("[data-attribute='Id']:eq(1)").val();
+                }
+            },
+            pageSize: 10,
+            serverPaging: false,
+            batch: true,
+            schema: {
+                model: {
+                    fields: {
+                        //ProjectId: { editable: true },
+                        Id: { editable: true },
+                        UnitId: { editable: true },
+                        Name: { editable: true },
+                       Surname: { editable: true },
+                        Phone: { editable: true },
+                        Mail: { editable: true },
+
+                    }
+
+                }
+
+            }
+        });
+
+        var dataSourceSocialMedia = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/work/GetCompanySocialMedias/" + @(Model.Company.Id),
+                    dataType: "json"
+                },
+                parameterMap: function (options) {
+                    return "&Id=" + $("[data-attribute='Id']:eq(1)").val();
+                }
+            },
+            pageSize: 10,
+            serverPaging: false,
+            batch: true,
+            schema: {
+                model: {
+                    fields: {
+                        //ProjectId: { editable: true },
+                        Id: { editable: true },
+                        UnitId: { editable: true },
+                        Title: { editable: true },
+                        NumberOfFollowers: { editable: true },
+                        NumberOfPosts: { editable: true },
+                    }
+
+                }
+
+            }
+        });
+
+         var dataSourcePassword = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/work/GetCompanyPasswords/" + @(Model.Company.Id),
+                    dataType: "json"
+                },
+                parameterMap: function (options) {
+                    return "&Id=" + $("[data-attribute='Id']:eq(1)").val();
+                }
+            },
+            pageSize: 10,
+            serverPaging: false,
+            batch: true,
+            schema: {
+                model: {
+                    fields: {
+                        //ProjectId: { editable: true },
+                        Id: { editable: true },
+                        UnitId: { editable: true },
+                        Title: { editable: true },
+                        Detail: { editable: true },
+                        Password: { editable: true },
+                    }
+
+                }
+
+            }
+        });
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            navigatable: true,
+            scrollable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [5,10, 20, 50],
+            },
+            editable: true,
+            columns: [
+                //{ field: "ProjectId", title: "ProjectId", hidden: true, width: 100 },
+                { field: "Id", title: "Id", hidden: true, width: 60 },
+                { field: "UnitId", title: "UnitId", hidden: true, width: 60 },
+                //{ field: "ProjectName", title: "Proje", width: 180 },
+                { field: "Name", title: "Firma Yetkilisi Adı", width: 120 },
+                { field: "Surname", title: "Firma Yetkilisi Soyadı", width: 120 },
+                { field: "Phone", title: "Telefon", width: 80 },
+                { field: "Mail", title: "E-Posta", width: 80 },
+                {
+                    //id değerini şu şekilde alıyoruz. #:Id#
+                    template: '<a href="/Work/CompanyDetail?Id=#:UnitId#&UID=#:Id#" class="btn bg-cyan waves-effect image" data-toggle="tooltip" data-original-title="Detay" data-placement="top"><i class="material-icons">delete</i></button>',
+                    width: 25
+                },
+
+            ],
+            save: function (e) {
+                console.log(e.model.Id);
+                $.zsytem.Server.PostAsync({ Name: e.values.Name, Surname: e.values.Surname, Phone: e.values.Phone, Mail: e.values.Mail, Id: e.model.Id }, "/Work/UpdateCompanyAuthorized", "")
+                // $.zsytem.Server.PostAsync({ Name: e.values.ProjectName, ProjectId: e.model.ProjectId }, "/Work/UpdateProject", "")
+            },
+            //save: function (e) {
+            //    console.log(e.model.UnitId);
+            //    $.zsytem.Server.PostAsync({ Name: e.values.UnitName, ProjectId: e.model.UnitId }, "/Work/UpdateUnit", "")
+            //},
+            dataBound: function (e) {
+                $.zsytem.Loading.waitMe('hide');
+            }
+        });
+
+        $("#gridSocialMedia").kendoGrid({
+            dataSource: dataSourceSocialMedia,
+            sortable: true,
+            navigatable: true,
+            scrollable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 50],
+            },
+            editable: true,
+            columns: [
+                //{ field: "ProjectId", title: "ProjectId", hidden: true, width: 100 },
+                { field: "Id", title: "Id", hidden: true, width: 60 },
+                { field: "UnitId", title: "UnitId", hidden: true, width: 60 },
+                //{ field: "ProjectName", title: "Proje", width: 180 },
+                { field: "Title", title: "Platformunun Adı", width: 120 },
+                { field: "NumberOfFollowers", title: "Takipçi Sayısı", width: 80 },
+                { field: "NumberOfPosts", title: "Gönderi Sayısı", width: 80 },
+                {
+                    //id değerini şu şekilde alıyoruz. #:Id#
+                    template: '<a href="/Work/CompanyDetail?Id=#:UnitId#&SID=#:Id#" class="btn bg-cyan waves-effect image" data-toggle="tooltip" data-original-title="Detay" data-placement="top"><i class="material-icons">delete</i></button>',
+                    width: 25
+                },
+
+            ],
+            save: function (e) {
+                console.log(e.model.Id);
+                $.zsytem.Server.PostAsync({ Title: e.values.Title, NumberOfFollowers: e.values.NumberOfFollowers, NumberOfPosts: e.values.NumberOfPosts, Id: e.model.Id }, "/Work/UpdateCompanySocialMedia", "")
+                // $.zsytem.Server.PostAsync({ Name: e.values.ProjectName, ProjectId: e.model.ProjectId }, "/Work/UpdateProject", "")
+            },
+            //save: function (e) {
+            //    console.log(e.model.UnitId);
+            //    $.zsytem.Server.PostAsync({ Name: e.values.UnitName, ProjectId: e.model.UnitId }, "/Work/UpdateUnit", "")
+            //},
+            dataBound: function (e) {
+                $.zsytem.Loading.waitMe('hide');
+            }
+        });
+
+        $("#gridPassword").kendoGrid({
+            dataSource: dataSourcePassword,
+            sortable: true,
+            navigatable: true,
+            scrollable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 50],
+            },
+            editable: true,
+            columns: [
+                //{ field: "ProjectId", title: "ProjectId", hidden: true, width: 100 },
+                { field: "Id", title: "Id", hidden: true, width: 60 },
+                { field: "UnitId", title: "UnitId", hidden: true, width: 60 },
+                //{ field: "ProjectName", title: "Proje", width: 180 },
+                { field: "Title", title: "Şifre Başlık", width: 180 },
+                { field: "Detail", title: "Detay", width: 150 },
+                { field: "Password", title: "Şifre", width: 50 },
+                {
+                    //id değerini şu şekilde alıyoruz. #:Id#
+                    template: '<a href="/Work/CompanyDetail?Id=#:UnitId#&PID=#:Id#" class="btn bg-cyan waves-effect image" data-toggle="tooltip" data-original-title="Detay" data-placement="top"><i class="material-icons">delete</i></button>',
+                    width: 25
+                },
+
+            ],
+            save: function (e) {
+                console.log(e.model.Id);
+                $.zsytem.Server.PostAsync({ Title: e.values.Title, NumberOfFollowers: e.values.NumberOfFollowers, NumberOfPosts: e.values.NumberOfPosts, Id: e.model.Id }, "/Work/UpdateCompanySocialMedia", "")
+                // $.zsytem.Server.PostAsync({ Name: e.values.ProjectName, ProjectId: e.model.ProjectId }, "/Work/UpdateProject", "")
+            },
+            //save: function (e) {
+            //    console.log(e.model.UnitId);
+            //    $.zsytem.Server.PostAsync({ Name: e.values.UnitName, ProjectId: e.model.UnitId }, "/Work/UpdateUnit", "")
+            //},
+            dataBound: function (e) {
+                $.zsytem.Loading.waitMe('hide');
+            }
+        });
+        var tempId = 0;
+        //departman tipi müdürlük ve daire başkanlıgıysa (bunu Arch.Service/Services/WorkService kısmında) Firmaleri getir. iş takibini yapan Firmaleri burda ayarladık
+        $.zsytem.Server.GetAsync("", "/Work/GetDaireMudurlukUnits", function (e) {
+            $("#firmaSec").select2({
+                placeholder: 'Firma seçiniz',
+                type: "GET",
+                data: e,
+            });
+        });
+
+        // burada projeler, kişiler ekleniyor. GetProjectsPersonsUnits metodunda
+        $.zsytem.Server.PostAsync("", "/Work/GetProjectsPersonsUnits", function (e) {
+            $("[data-attribute='ProjectId']").select2({
+                placeholder: 'Proje seçiniz',
+                type: "GET",
+                data: [],
+            });
+            $("[data-attribute='RequestedBy']").select2({
+                placeholder: 'Talep eden kişiyi seçiniz',
+                type: "GET",
+                data: e.Persons,
+            });
+            $("[data-attribute='Assigned']").select2({
+                placeholder: 'Atanacak kişiyi seçiniz',
+                type: "GET",
+                data: e.Persons,
+            });
+            $("[data-attribute='Followers']").select2({
+                placeholder: 'Kişi seçiniz',
+                type: "GET",
+                data: e.Persons,
+                multiple: true
+            });
+            @if (Model.CompanyDetail.Id != 0) {
+       <text>
+            //Firmae göre projeleri getir
+            $.zsytem.Server.PostAsync("", "/Work/GetUnitProjectList?unitId=@Model.CompanyDetail.UnitId", function (z) {
+                $("[data-attribute='ProjectId']").select2({
+                    placeholder: 'Proje seçiniz',
+                    type: "GET",
+                    data: z,
+                });
+                 //Firmae göre kişileri getir
+                $.zsytem.Server.PostAsync("", "/Work/GetUnitPersons?unitId=@Model.CompanyDetail.UnitId", function (t) {
+                    $("[data-attribute='Assigned']").select2({
+                        placeholder: 'Atanacak Kişi seçiniz',
+                        type: "GET",
+                        data: t,
+                    });
+                });
+            });
+            </text>
+
+   }
+    else {
+      <text>
+            </text>
+    }
+        });
+
+
+
+        //detay içinde ki iş içeriğini girince entera bastıkça aşagı indiriyor
+        function textAreaAdjust(o) {
+            o.style.height = "1px";
+            o.style.height = (25 + o.scrollHeight) + "px";
+        }
+
+        function funcCreateTempMediaList(t) {
+            $.zsytem.Server.UploadAsync(t.files, '/Media/CreateTempMediaForTask', function (e) {
+                if (e.indexOf == undefined || e.indexOf("##") == -1) {
+                    $("#imgList").html("");
+                    var html = "";
+                    for (var i = 0; i < e.length; i++) {
+                        tempId++;
+                        html = ' <a href="/Media/PreviewWithName?id=' + (i + 1) + '&tempId=' + tempId + '&fileName=' + e[i].FileName + '" data-sub-html="' + e[i].FileName + '" ' + (e[i].ContentType.indexOf("image") == -1 ? 'data-iframe="true"' : '') + '>' +
+                      e[i].FileName +
+                      '</a><br/>';
+                        $("#imgList").append(html);
+                    }
+                } else {
+                    var rTextSplit = e.split("##");
+                    $.zsytem.Notify.Show(rTextSplit[1], rTextSplit[0], "warning")
+                }
+                $("#mediaSelect").val("")
+                $('#imgList').data('lightGallery').destroy(true);
+                $('#imgList').lightGallery({ thumbnail: false, selector: '#imgList a' });
+            })
+        }
+
+
+
+        // taskı tamamen kopyalamaya yarıyor. kopyaladıktan sonra kaydete basılıyor ve içeriği değiştirebiliyoruz
+        function funcCopyTask() {
+            $('[data-attribute="Id"]').val(0);
+            $('[data-attribute="Description"]').val("");
+            $('[data-attribute="TaskStatusId"]').select2("val", "@Arch.Core.Enums.TaskStatusTypes.ToDo")
+            $('[data-attribute="RequestedDate"]').val('@DateTime.Now.ToString("yyy-MM-ddTHH:mm")');
+            $.zsytem.Notify.Show('Bu iş kopyalandı', '', 'success'); $('[data-model-url]').attr('data-model-url', '/Work/InsertTask');
+            $("#imgList").html("");
+            $('.card h2 b').html(' - Yeni Kayıt')
+        }
+    </script>
+}
+

@@ -1,0 +1,280 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // ViewBag.BodyClassName = "login-page";
+}
+
+
+@model Arch.Dto.ParamDto.RegisterParamDto
+<style>
+    .pre-media img, .pre-media .file {
+        height: 100px;
+        width: 80px;
+    }
+
+    .pre-media i {
+        font-size: 40px;
+        vertical-align: text-bottom;
+    }
+
+    .lg-video-cont {
+        max-width: 80% !important;
+    }
+
+    iframe {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-color: white;
+    }
+</style>
+<link href="/assets/plugins/Select2/select2.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header bg-blue">
+                <h2>
+                    Kişi Ekle/Düzenle<b>
+                        @if (Model.Id != 0)
+                        { <text> [@Model.UserName] kullanıcı adlı kişiyi düzenle </text>}
+                        else
+                        { <text> Yeni Kayıt </text>}
+                    </b>
+                </h2>
+            </div>
+            <div class="body">
+                <div data-id="formTask" @if (Model.Id == 0) { <text> data-model-url="/Work/InsertPerson" </text>                  } else { <text> data-model-url="/Work/UpdatePerson" </text>                  }>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b>Kullanıcı Adı</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input class="hidden" data-attribute="Id" value="@Model.Id" />
+                                    <input type="text" class="form-control" data-attribute="Username" value="@Model.UserName" />
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-6">
+                                <b>İş Durumu</b>
+                                <code>* Gerekli</code>
+                                <div class="input-group">
+                                    <select data-attribute="TaskStatusId" class="form-control" onchange="if(this.value==38){$('#dueDate').val('@DateTime.Now.ToString("yyy-MM-ddTHH:mm")');$('[href=\'#collapseTwo_1\']').click();$('[data-attribute=\'DueDate\']').focus();}">
+                                        <option value="@Arch.Core.Enums.TaskStatusTypes.ToDo" selected>Yapılacak</option>
+                                        <option value="@Arch.Core.Enums.TaskStatusTypes.InProgress">Devam Ediyor</option>
+                                        <option value="@Arch.Core.Enums.TaskStatusTypes.Done">Tamamlandı</option>
+                                        <option value="@Arch.Core.Enums.TaskStatusTypes.Removed">Kaldırıldı</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        <div class="col-md-6">
+                            <b>Şifre</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Password" value="@Model.Password" />
+                                </div>
+                            </div>
+                        </div>
+                        @*/////////////////////*@
+                        <div class="col-md-6">
+                            <b>Adı</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Name" value="@Model.Name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Soyadı</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Surname" value="@Model.Surname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>E-Posta</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Email" value="@Model.Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Telefon</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Phone" value="@Model.Phone" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" style="margin-bottom:0">
+                            <b>Talep Edilen Birim</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <input class="form-control" data-attribute="UnitId"  @if (Model.UnitId != 0) { <text> value="@Model.UnitId" </text>       } />
+                            </div>
+                        </div>
+                        @*<div class="col-md-6">
+                                <b>Proje</b>
+                                <code>* Gerekli</code>
+                                <div class="input-group">
+                                    <input class="hidden" data-attribute="Id" value="@Model.Task.Id" />
+                                    <input class="form-control" data-attribute="ProjectId" @if (Model.Task.Id != 0) { <text> value="@Model.UserName" </text>               }
+                                           onchange="$('[data-attribute=\'Assigned\']').select2('open')" />
+                                </div>
+                            </div>*@
+                        @*<input type="text" class="form-control hidden" data-attribute="Queue" @if (Model.Task.Id != 0) { <text> value="@Model.Password" </text>                 } else { <text> value="1" </text>         } />
+                        <div class="col-md-6">
+                            <b>Kişiyi Oluşturan</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <input class="form-control" data-attribute="Assigned" @if (Model.Task.Id != 0) { <text> value="@Model.Email" </text>          } onchange="$('[data-attribute=\'Title\']').focus()" />
+                            </div>
+                        </div>*@
+                        @*<div class="col-md-6">
+                                <b>Kişiyi Oluşturan</b>
+                                <div class="input-group">
+                                    <input class="form-control" data-attribute="Followers" @if (Model.Task.Id != 0) { <text> value="@Model.Name" </text>                    } />
+                                </div>
+                            </div>*@
+                        @*<div class="col-md-6">
+                                <b>Başlık</b>
+                                <code>* Gerekli</code>
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" data-attribute="Title" value="@Model.Surname" onblur="$('[data-attribute=\'RequestedDate\']').focus()" />
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="col-md-6">
+                            <b>Oluşturma Tarihi</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="datetime-local" class="form-control" data-attribute="CreatedDate" @if (Model.Id != 0) { <text> value="@Model.CreatedDate.ToString("yyy-MM-ddTHH:mm")" </text> } else { <text> value="@DateTime.Now.ToString("yyy-MM-ddTHH:mm")</text>}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <a href="javascript:void(history.back())" class="btn bg-blue waves-effect">
+                        <i class="material-icons">arrow_back</i> Geri Dön
+                    </a>
+                    <a href="/Work/RegisterList" class="btn bg-blue waves-effect">
+                        <i class="material-icons">assignment</i> Kişi Listesi
+                    </a>
+                    @*<a href="javascript:void(0);" onclick="funcCopyTask()" class="btn bg-blue waves-effect">
+                            <i class="material-icons">content_copy</i> Kopyala
+                        </a>*@
+                    <a href="javascript:void(formSendModel($('[data-id=\'formTask\']')[0].dataset));" class="btn bg-blue waves-effect">
+                        <i class="material-icons">save</i> Kaydet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="hidden" id="comments">
+    <div class="media" style="margin-top:0;">
+        <h4 class="media-heading col-blue" style="font-size:15px;">##FullName <small><b>##Date</b> yorum yaptı.</small></h4>
+        ##Description
+    </div>
+</div>
+@section scripts{
+    <script src="/assets/plugins/Select2/select2.min.js"></script>
+    <script>
+        var tempId = 0;
+        //departman tipi müdürlük ve daire başkanlıgıysa (bunu Arch.Service/Services/WorkService kısmında) birimleri getir. iş takibini yapan birimleri burda ayarladık
+        $.zsytem.Server.GetAsync("", "/Work/GetUnits", function (e) {
+            $("[data-attribute='UnitId']").select2({
+                placeholder: 'Birim seçiniz',
+                type: "GET",
+                data: e,
+            });
+        });
+        $.zsytem.Server.PostAsync("", "/Work/GetPersonsUnits", function (e) {
+
+            $("[data-attribute='Assigned']").select2({
+                placeholder: 'Atanacak kişiyi seçiniz',
+                type: "GET",
+                data: e.Persons,
+            });
+            $("[data-attribute='Followers']").select2({
+                placeholder: 'Kişi seçiniz',
+                type: "GET",
+                data: e.Persons,
+                multiple: true
+            });
+   
+            @if (Model.UnitId != 0) {
+             <text>
+                 //birime göre kişileri getir
+                $.zsytem.Server.PostAsync("", "/Work/GetUnitPersons?unitId=@Model.UnitId", function (t) {
+                    $("[data-attribute='Assigned']").select2({
+                        placeholder: 'Atanacak Kişi seçiniz',
+                        type: "GET",
+                        data: t,
+                    });
+                });
+
+            </text>
+   }
+    else {
+            <text>
+
+            </text>
+    }
+        });
+
+        //$('#imgList').lightGallery({ thumbnail: false, selector: '#imgList a' });
+        //$("[data-attribute='TaskStatusId']").select2({ minimumResultsForSearch: Infinity });
+        @*@if (Model.Task.Id != 0) { <text> $("[data-attribute='TaskStatusId']").select2("val", "@Model.Task.TaskStatusId"); </text>  }*@
+
+        //birime  göre projeleri getiriyor
+        //function funcUnitChange(e) {
+        //    $.zsytem.Server.PostAsync("", "/Work/GetUnitProjectList?unitId=" + e.value, function (t) {
+        //        if (t.length == 0) {
+        //            waitingSeconds = 10000;
+        //            $.zsytem.Notify.Show("Bilgilendirme", "Seçilen birime ait proje başlıkları tanımlanmamış.<br/>Birim Projeleri kısmından biriminize gelecek taleplere göre konularınızı belirleyiniz.", "info");
+        //            waitingSeconds = 4000;
+        //        }
+        //        $("[data-attribute='ProjectId']").select2({
+        //            placeholder: 'Birim seçiniz',
+        //            type: "GET",
+        //            data: t,
+        //        });
+
+        //        //birime göre kişi getireceksek bunuu aktif edeceğiz
+        //        //$.zsytem.Server.PostAsync("", "/Work/GetUnitPersons?unitId=" + e.value, function (z) {
+        //        //    $("[data-attribute='Assigned']").select2({
+        //        //        placeholder: 'Atanacak Kişi seçiniz',
+        //        //        type: "GET",
+        //        //        data: z,
+        //        //    });
+        //        //});
+        //        //$("[data-attribute='ProjectId']").select2("open")
+        //    });
+        //}
+
+        // taskı tamamen kopyalamaya yarıyor. kopyaladıktan sonra kaydete basılıyor ve içeriği değiştirebiliyoruz
+        @*function funcCopyTask() {
+            $('[data-attribute="Id"]').val(0);
+            $('[data-attribute="Description"]').val("");
+            $('[data-attribute="TaskStatusId"]').select2("val", "@Arch.Core.Enums.TaskStatusTypes.ToDo")
+            $('[data-attribute="RequestedDate"]').val('@DateTime.Now.ToString("yyy-MM-ddTHH:mm")');
+            $.zsytem.Notify.Show('Bu iş kopyalandı', '', 'success'); $('[data-model-url]').attr('data-model-url', '/Work/InsertTask');
+            $("#imgList").html("");
+            $('.card h2 b').html(' - Yeni Kayıt')
+        }*@
+    </script>
+}

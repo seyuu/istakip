@@ -1,0 +1,16 @@
+D:\Egitim\ProjectWork\Arch.Core\bin\Release\Arch.Core.dll
+D:\Egitim\ProjectWork\Arch.Core\bin\Release\Arch.Core.pdb
+D:\Egitim\ProjectWork\Arch.Core\obj\Release\Arch.Core.csprojResolveAssemblyReference.cache
+D:\Egitim\ProjectWork\Arch.Core\obj\Release\Arch.Core.dll
+D:\Egitim\ProjectWork\Arch.Core\obj\Release\Arch.Core.pdb
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\Arch.Core.dll.config
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\Arch.Core.dll
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\Arch.Core.pdb
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\EntityFramework.dll
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\EntityFramework.xml
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\obj\Release\Arch.Core.csprojResolveAssemblyReference.cache
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\obj\Release\Arch.Core.csproj.CoreCompileInputs.cache
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\obj\Release\Arch.Core.dll
+C:\Users\SRDR\Desktop\ProjectWork\Arch.Core\obj\Release\Arch.Core.pdb

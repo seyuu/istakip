@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "ParameterDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Arch.Core.Parameters
+<style>
+    .pre-media img, .pre-media .file {
+        height: 100px;
+        width: 80px;
+    }
+
+    .pre-media i {
+        font-size: 40px;
+        vertical-align: text-bottom;
+    }
+
+    .lg-video-cont {
+        max-width: 80% !important;
+    }
+
+    iframe {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-color: white;
+    }
+</style>
+<link href="/assets/plugins/Select2/select2.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header bg-blue">
+                <h2>
+                    Parametre Ekle/Düzenle<b>
+                        @if (Model.Id != 0)
+                        { <text> [@Model.Id] nolu parametreyi düzenle </text>}
+                        else
+                        { <text> Yeni Parametre </text>}
+                    </b>
+                </h2>
+            </div>
+            <div class="body">
+                <div data-id="formTask" @if (Model.Id == 0) { <text> data-model-url="/Work/#" </text>                     } else { <text> data-model-url="/Work/UpdateParameter" </text>                     }>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b>Code</b>
+                            @*<code>* Gerekli</code>*@
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input class="hidden" data-attribute="Id" value="@Model.Id" />
+                                    <input type="text" class="form-control" data-attribute="Code" value="@Model.Code" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <b>İsim</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Name" value="@Model.Name" />
+                                </div>
+                            </div>
+                        </div>
+                        @*/////////////////////*@
+                        <div class="col-md-6">
+                            <b>Değer</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Value" value="@Model.Value" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Açıklama</b>
+                            <code>* Gerekli</code>
+                            <div class="input-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" data-attribute="Description" value="@Model.Description" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" class="form-control" data-attribute="IsActive" value="true" />
+
+                    </div>
+
+                </div>
+                <div>
+                    <a href="javascript:void(history.back())" class="btn bg-blue waves-effect">
+                        <i class="material-icons">arrow_back</i> Geri Dön
+                    </a>
+                    <a href="/Work/Parameters" class="btn bg-blue waves-effect">
+                        <i class="material-icons">assignment</i> Parametreler
+                    </a>
+                    @*<a href="javascript:void(0);" onclick="funcCopyTask()" class="btn bg-blue waves-effect">
+                            <i class="material-icons">content_copy</i> Kopyala
+                        </a>*@
+                    <a href="javascript:void(formSendModel($('[data-id=\'formTask\']')[0].dataset));" class="btn bg-blue waves-effect">
+                        <i class="material-icons">save</i> Kaydet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+   >
+
+
